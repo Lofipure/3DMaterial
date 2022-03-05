@@ -1,0 +1,70 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "prettier",
+    "prettier/standard",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "babel",
+    "promise",
+    "standard",
+    "prettier"
+  ],
+  "globals": {
+    "document": true,
+    "window": true,
+    "localStorage": true,
+    "Promise": true,
+    "navigator": true,
+    "console": true,
+    "setTimeout": true,
+    "clearTimeout": true,
+    "clearInterval": true,
+    "setInterval": true,
+    "process": true
+  },
+  "rules": {
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"],
+        "custom": {
+          "regex": "^I[A-Z]",
+          "match": true
+        }
+      }
+    ],
+    "@typescript-eslint/explicit-function-return-type": [
+      "off",
+      {
+        "allowExpressions": false
+      }
+    ],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-control-regex": "warn",
+    "no-console": [
+      "off",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-this-alias": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
+}

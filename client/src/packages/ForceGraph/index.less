@@ -1,0 +1,31 @@
+.graph-tooltip {
+  font-family: SimHei;
+  font-size: 12px;
+  position: fixed;
+  background: rgba(51, 51, 51, 0.95);
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999999;
+  max-width: 300px;
+  word-break: break-all;
+  &:after {
+    display: block;
+    content: "";
+    border-width: 4px 4px 4px 4px;
+    border-style: solid;
+    border-color: rgba(51, 51, 51, 0.95) transparent transparent transparent;
+    position: absolute;
+    left: calc(50% - 2px);
+    top: 100%;
+  }
+}
+
+#hidden-canvas {
+  display: none;
+}
+
+#main-canvas {
+  cursor: pointer;
+}

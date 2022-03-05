@@ -1,0 +1,68 @@
+.base-info {
+  margin-top: 16px;
+  &__form {
+    margin: 0 auto;
+    width: 520px;
+  }
+  &__add-tag {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding-left: 13px;
+    height: 32px;
+    color: rgba(24, 144, 255, 0.8);
+    &__icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.upload {
+  &__icon {
+    font-size: 48px;
+    color: rgba(24, 144, 255, 0.8);
+  }
+  &__text {
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.85);
+  }
+  &__hint {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.45);
+  }
+}
+
+.cover-uploader {
+  display: inline-block;
+  width: 100%;
+  :global {
+    .ant-upload {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+  &__content {
+    &:hover {
+      border-color: rgba(24, 144, 255, 0.8);
+    }
+    border-radius: 2px;
+    transition: all 0.2s linear;
+    border: 1px dashed #dadada;
+    padding: 16px;
+    background-color: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    &__icon {
+      font-size: 24px;
+      color: rgba(24, 144, 255, 0.8);
+    }
+  }
+}

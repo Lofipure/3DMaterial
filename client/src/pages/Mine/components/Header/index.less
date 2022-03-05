@@ -1,0 +1,62 @@
+.header {
+  height: 200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(175, 175, 175, 0.1);
+  &__avatar {
+    width: 64px;
+    height: 64px;
+  }
+  &__username {
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    margin-top: 12px;
+    &__sex {
+      margin-left: 8px;
+    }
+  }
+  &__info {
+    margin-top: 8px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    &__item {
+      margin-right: 32px;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 20px;
+      &__icon {
+        margin-right: 8px;
+      }
+      &:last-child {
+        margin-right: 0px;
+      }
+    }
+  }
+  &__btn {
+    margin-top: 8px;
+    width: 100px;
+  }
+}
+
+.modal-footer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 16px;
+
+  &__save-btn {
+    width: 100px;
+  }
+}
+
+.wrapper {
+  width: 100%;
+}

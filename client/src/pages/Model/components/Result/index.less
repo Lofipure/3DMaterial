@@ -1,0 +1,24 @@
+.search {
+  // max-width: 1168px;
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  justify-content: flex-start;
+  &__item {
+    margin-bottom: 16px;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .search {
+    width: 1168px;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1200px) {
+  .search {
+    width: 90%;
+  }
+}

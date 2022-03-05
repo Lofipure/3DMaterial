@@ -1,0 +1,31 @@
+.create {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f8fa;
+  &__content {
+    overflow: scroll;
+    flex: auto;
+    margin: 16px 24px;
+    padding: 16px 24px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(175, 175, 175, 0.1);
+  }
+  &__content-wrapper {
+    margin-top: 16px;
+  }
+  &__footer {
+    padding-right: 8px;
+    background-color: #ffffff;
+    width: 100%;
+    padding: 8px 24px;
+    display: flex;
+    justify-content: end;
+    box-shadow: inset 0px 1px 0px #f0f0f0;
+    &__btn {
+      width: 100px;
+      margin-left: 16px;
+    }
+  }
+}

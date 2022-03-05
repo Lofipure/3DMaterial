@@ -1,0 +1,75 @@
+.detail {
+  height: 100%;
+  overflow: scroll;
+  background-color: #f0f2f5;
+
+  &__operations {
+    margin-right: 32px;
+  }
+  &__spin {
+    height: 100%;
+    :global {
+      .ant-spin-container {
+        height: 100%;
+      }
+    }
+  }
+  &__header {
+    padding: 8px 16px;
+    background-color: #ffffff;
+    &__back {
+      display: flex;
+      align-items: center;
+    }
+    &__title {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 28px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.85);
+      padding-left: calc(64px - 16px);
+    }
+    &__desc {
+      font-size: 14px;
+      line-height: 22px;
+      color: rgba(102, 102, 102, 0.85);
+      padding-left: calc(64px - 16px);
+      width: 85%;
+    }
+  }
+
+  &__tabs {
+    width: 100%;
+    overflow: scroll;
+    :global {
+      .ant-tabs-nav-wrap {
+        margin-left: 32px;
+      }
+      .ant-tabs-nav {
+        margin-bottom: 0px;
+        background-color: #ffffff;
+      }
+      .ant-tabs-content-holder {
+        margin: 24px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .content {
+    width: 1168px;
+  }
+}
+
+@media screen and (max-width: 1200px) and (min-width: 0px) {
+  .content {
+    width: 90%;
+  }
+}
+
+.content {
+  margin: 0 auto;
+}

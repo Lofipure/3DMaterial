@@ -1,0 +1,43 @@
+.relative-creator {
+  height: 361px;
+  overflow: scroll;
+
+  .header {
+    padding: 12px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .creator-list {
+    .creator {
+      background-color: #fff;
+      display: flex;
+      padding: 8px;
+      &__left {
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+      }
+      &__right {
+        &__title {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 22px;
+          color: #333333;
+        }
+        &__subtitle {
+          font-style: normal;
+          font-weight: normal;
+          font-size: 12px;
+          line-height: 20px;
+          color: #999999;
+        }
+      }
+    }
+  }
+}

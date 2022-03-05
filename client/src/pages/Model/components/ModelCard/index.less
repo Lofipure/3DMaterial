@@ -1,0 +1,67 @@
+.model-card {
+  width: 284px;
+  height: 350px;
+  background-color: #ffffff;
+  display: inline-block;
+  transition: all 0.2s ease;
+  &__img {
+    height: 160px;
+    width: 100%;
+  }
+  &__body {
+    padding: 16px;
+  }
+  &__title {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    color: rgba(0, 0, 0, 0.85);
+    margin-bottom: 8px;
+  }
+  &__desc {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 22px;
+  }
+  &__tags {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__footer {
+    margin-top: 8px;
+    height: 32px;
+    padding: 8px 16px;
+    display: flex;
+    justify-content: space-between;
+    &__icon,
+    &__text {
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    &__text {
+      margin-left: 12px;
+    }
+    &__item {
+      &:first-child {
+        margin-right: 16px;
+      }
+    }
+    &__left {
+      display: flex;
+    }
+    &__right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px);
+  }
+}

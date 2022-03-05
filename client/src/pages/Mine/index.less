@@ -1,0 +1,58 @@
+.mine {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.data-analyze {
+  margin-top: 16px;
+}
+// 大屏
+@media only screen and (min-width: 1200px) {
+  .mine {
+    width: 1200px;
+  }
+
+  .selection {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+
+    &__record,
+    &__relative {
+      height: 361px;
+      background-color: #fff;
+    }
+
+    &__record {
+      margin-right: 16px;
+    }
+
+    &__relative {
+      width: 100%;
+    }
+  }
+}
+
+// 小屏
+@media only screen and (max-width: 1200px) and (min-width: 0px) {
+  .mine {
+    width: 90%;
+  }
+
+  .selection {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+
+    &__record {
+      height: 361px;
+      background-color: #fff;
+    }
+
+    &__relative {
+      display: none;
+    }
+  }
+}

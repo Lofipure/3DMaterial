@@ -1,0 +1,72 @@
+.data-analyze {
+  background-color: #fff;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.data-drawer {
+  position: absolute;
+  &__subtitle {
+    margin-left: 8px;
+    font-size: 10px;
+    line-height: 22px;
+  }
+  &__header {
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    border-bottom: 1px solid rgba(175, 175, 175, 0.25);
+  }
+
+  &__tag-analyze,
+  &__power-analyze {
+    padding: 0 8px;
+  }
+
+  &__color-board {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    &__item {
+      display: flex;
+      align-items: center;
+      &__color {
+        margin-right: 8px;
+        display: inline-block;
+        height: 14px;
+        width: 14px;
+        border-radius: 4px;
+      }
+      &__text {
+        font-size: 14px;
+        line-height: 20px;
+      }
+    }
+  }
+  :global {
+    .ant-drawer-close {
+      position: absolute;
+      left: -32px;
+      // left: 0;
+      float: left;
+      top: 14px;
+      padding: 0;
+    }
+    .ant-drawer-content {
+      overflow: visible;
+    }
+  }
+}
+
+.center-item {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
