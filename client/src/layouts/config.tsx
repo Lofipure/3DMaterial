@@ -35,7 +35,7 @@ export const routes: Route[] = [
 export const layoutConfig: BasicLayoutProps = {
   contentWidth: "Fixed",
   splitMenus: false,
-  fixedHeader: true,
+  fixSiderbar: true,
   layout: "top",
   navTheme: "dark",
 };

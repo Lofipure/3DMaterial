@@ -1,10 +1,10 @@
-import React, { useEffect, useState, FC } from "react";
+import React, { useEffect, useState, FC, useMemo } from "react";
 import { getUserLocalInfo, isNil } from "@/utils";
 import Header from "./components/Header";
-import Board from "./components/Board";
 import Detail from "@/pages/Detail";
 import styles from "./index.less";
-import { Drawer } from "antd";
+import { Drawer, Tabs } from "antd";
+import { getPropertyTabConfig } from "./config";
 
 const Property: FC = () => {
   const [uid, setUid] = useState<number>();
@@ -23,16 +23,26 @@ const Property: FC = () => {
     }
   }, []);
 
+  const tabConfig = useMemo(
+    () =>
+      getPropertyTabConfig({ uid: uid as any, onDetail: handleModelDetail }),
+    [uid, handleModelDetail],
+  );
+
   return (
     <div className={styles["property"]}>
       {uid && (
         <>
           <Header uid={uid} />
-          <Board
-            uid={uid}
-            className={styles["property__board"]}
-            onDetail={handleModelDetail}
-          />
+          <div className={styles["property__board"]}>
+            <Tabs tabPosition={"left"} className={styles["board__tabs"]}>
+              {tabConfig?.map((item) => (
+                <Tabs.TabPane tabKey={item.key} key={item.key} tab={item.label}>
+                  {item.component}
+                </Tabs.TabPane>
+              ))}
+            </Tabs>
+          </div>
         </>
       )}
       <Drawer
@@ -48,6 +58,9 @@ const Property: FC = () => {
           padding: 0,
         }}
         getContainer={false}
+        headerStyle={{
+          display: "none",
+        }}
       >
         <Detail
           mid={currentModelId}

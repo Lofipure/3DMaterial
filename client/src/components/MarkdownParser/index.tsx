@@ -1,5 +1,6 @@
-import React, { FC, useRef } from "react";
+import React, { FC, useState } from "react";
 import Vditor from "vditor";
+import { Spin } from "antd";
 import "vditor/src/assets/scss/index.scss";
 
 interface IMarkdownParser {
@@ -10,7 +11,7 @@ interface IMarkdownParser {
 
 const MarkdownParser: FC<IMarkdownParser> = (props) => {
   const { mode = "view", value, onChange } = props;
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const toolbarconfig = [
     "outline",
     "|",
@@ -28,36 +29,46 @@ const MarkdownParser: FC<IMarkdownParser> = (props) => {
     "ordered-list",
   ];
 
-  if (mode === "edit") {
-    new Vditor(containerRef.current as HTMLDivElement, {
-      minHeight: 400,
-      comment: {
-        enable: false,
-      },
-      mode: "ir",
-      toolbar: toolbarconfig,
-      value: value || "请详细说明一下你的模型吧 ：）",
-      cache: {
-        enable: false,
-      },
-      input: (value) => {
-        onChange?.(value);
-      },
-    });
-  } else {
-    if (value && value != undefined) {
-      Vditor.preview(containerRef?.current as HTMLDivElement, value, {
-        mode: "light",
+  const render = (node: HTMLDivElement) => {
+    if (mode == "edit") {
+      new Vditor(node, {
+        minHeight: 400,
+        comment: {
+          enable: false,
+        },
+        mode: "ir",
+        toolbar: toolbarconfig,
+        value: value ?? ":::",
+        cache: {
+          enable: false,
+        },
+        input: (value) => {
+          onChange?.(value);
+        },
       });
+    } else {
+      if (value && value != undefined) {
+        Vditor.preview(node, value, {
+          mode: "light",
+        });
+      }
     }
-  }
+  };
+
   return (
-    <div
-      ref={containerRef}
-      style={{
-        height: "100%",
-      }}
-    ></div>
+    <Spin spinning={loading}>
+      <div
+        ref={(node) => {
+          setLoading(!node);
+          if (node) {
+            render(node);
+          }
+        }}
+        style={{
+          height: "100%",
+        }}
+      ></div>
+    </Spin>
   );
 };
 

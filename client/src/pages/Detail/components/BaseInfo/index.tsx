@@ -66,7 +66,7 @@ const BaseInfo: FC<IBaseInfoProps> = (props) => {
           <UserOutlined
             size={14}
             className={styles["base-info__left__creator__item__icon"]}
-          />{" "}
+          />
           {modelInfo?.creator.username}
           {modelInfo?.creator.sex === Sex.Male ? (
             <ManOutlined
@@ -84,7 +84,7 @@ const BaseInfo: FC<IBaseInfoProps> = (props) => {
           <MailOutlined
             size={14}
             className={styles["base-info__left__creator__item__icon"]}
-          />{" "}
+          />
           <a href={`mailto:${modelInfo?.creator.email}`}>
             {modelInfo?.creator.email}
           </a>

@@ -1,4 +1,5 @@
-import * as ModelReqType from "../../routers/Models/types";
+import * as ModelReqType from "@/types/Model/req.type";
+import * as ModelResType from "@/types/Model/res.type";
 import {
   Model,
   ModelsAndUsers,
@@ -15,7 +16,9 @@ import moment from "moment";
 import { AuthControl } from "../../types";
 
 /** 保存模型 */
-export const saveModel = async (req: ModelReqType.ISave) => {
+export const saveModel = async (
+  req: ModelReqType.ISave,
+): Promise<ModelResType.ISave> => {
   const {
     model_cover,
     model_desc,
@@ -28,8 +31,16 @@ export const saveModel = async (req: ModelReqType.ISave) => {
     mid: _mid,
   } = req;
   if (_mid) {
-    // * 更新基本信息
-    await Model.update(
+    // 从 tags_and_models 表中找到所有的记录
+    const currentTagList = (
+      await TagsAndModels.findAll({
+        where: {
+          mid: _mid,
+        },
+        attributes: ["tid"],
+      })
+    ).map((item) => item.get().tid);
+    const __modelResult = await Model.update(
       {
         model_cover,
         model_desc,
@@ -44,24 +55,14 @@ export const saveModel = async (req: ModelReqType.ISave) => {
         },
       },
     );
-    // * 添加更新记录
-    await UpdateModel.create({
+    const __updateResult = await UpdateModel.create({
       uid,
       mid: _mid,
     });
     // * 更新标签信息
-    // 从 tags_and_models 表中找到所有的记录
-    const currentTagList = (
-      await TagsAndModels.findAll({
-        where: {
-          mid: _mid,
-        },
-        attributes: ["tid"],
-      })
-    ).map((item) => item.get().tid);
     // ? 如果 tag_list 在 记录中，不处理
     // ? 如果不在 记录中，加入
-    await Promise.all(
+    const __tagResult = await Promise.all(
       tag_list.map(
         async (tid) =>
           !currentTagList.includes(tid) &&
@@ -81,10 +82,10 @@ export const saveModel = async (req: ModelReqType.ISave) => {
       },
     });
     return {
-      status: 1,
+      status: Number(!!__tagResult && !!__updateResult && !!__modelResult),
     };
   }
-  const createModelResult = await Model.create({
+  const __createModelResult = await Model.create({
     model_cover,
     model_desc,
     model_intro,
@@ -92,13 +93,13 @@ export const saveModel = async (req: ModelReqType.ISave) => {
     model_url,
     auth,
   });
-  const { mid } = createModelResult.get();
-  const createRelaWithUser = await ModelsAndUsers.create({
+  const { mid } = __createModelResult.get();
+  const __createRelaWithUserResult = await ModelsAndUsers.create({
     mid,
     uid,
     is_owner: 1,
   });
-  const createRelaWithTags = await Promise.all(
+  const __createRelaWithTagsResult = await Promise.all(
     tag_list.map(
       async (item) =>
         await TagsAndModels.create({
@@ -108,7 +109,11 @@ export const saveModel = async (req: ModelReqType.ISave) => {
     ),
   );
   return {
-    status: !!createRelaWithTags && !!createRelaWithUser && !!createModelResult,
+    status: Number(
+      __createRelaWithTagsResult &&
+        !!__createRelaWithUserResult &&
+        !!__createModelResult,
+    ),
   };
 };
 
@@ -141,10 +146,9 @@ export const getModelList = async (req: ModelReqType.IList) => {
         ],
       })
     )
-      .map((item) => item.get())
-      .filter((item) => {
-        const creatorIds = (item.models_and_users as any[]).map(
-          (i: SeqModel) => i.get().uid,
+      .reduce<any[]>((curList, item) => {
+        const creatorIds = (<SeqModel[]>item.get().models_and_users).map(
+          (i) => i.get().uid,
         );
         // ? is_self 用来标记是不是从广场获取，
         // ! is_self == true，不是从广场获取
@@ -153,12 +157,15 @@ export const getModelList = async (req: ModelReqType.IList) => {
         // ! is_self == false，是从广场获取
         // * 所有 AuthControl.public
         // * 自己的所有模型「作者 / 协作者」
-        if (is_self) {
-          return creatorIds.includes(uid);
-        } else {
-          return creatorIds.includes(uid) || item.auth == AuthControl.public;
+        if (
+          (is_self && creatorIds.includes(uid)) ||
+          (!is_self &&
+            (creatorIds.includes(uid) || item.get().auth == AuthControl.public))
+        ) {
+          curList.push(item.get());
         }
-      })
+        return curList;
+      }, [])
       .filter((item) =>
         model_tags?.length
           ? model_tags.some((tag) =>

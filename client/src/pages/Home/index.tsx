@@ -38,6 +38,7 @@ const Welcome: FC = () => {
             username,
           }),
         );
+        message.success("登陆成功");
         history.push(routes.model);
       } else if (status == LoginUserStatus.noUser) {
         message.warn("用户不存在，请先注册");

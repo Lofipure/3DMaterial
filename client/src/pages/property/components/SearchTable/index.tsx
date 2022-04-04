@@ -1,8 +1,4 @@
-/**
- * @Date 2021-09-28
- * 这是我写代码以来自己觉得自己写的最恶心的组件 🤮
- * 一点都不通用而且类型还声明一大堆
- */
+/** 这个组件写的是真他妈恶心 woc 🤮 */
 import React, { FC, useMemo, useState, useRef, ElementRef } from "react";
 import { Input, Button, Modal, message, Drawer } from "antd";
 import apis from "@/api";
@@ -60,20 +56,22 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
   const tagModalStatus = useRef<TagModalStatus>(TagModalStatus.create); // 标记当前打开的框框是新建还是编辑
   const editTagId = useRef<number | undefined>(undefined);
 
+  const deleteApi = useMemo(
+    () =>
+      type === PropertyType.model ? apis.model.deleteModel : apis.tag.deleteTag,
+    [type],
+  );
+
   const handleBatchModel = () => {
     Modal.confirm({
       content: `你确定要删除选中${copywriting[type]}吗`,
       onOk: async () => {
-        const api =
-          type === PropertyType.model
-            ? apis.model.deleteModel
-            : apis.tag.deleteTag;
         const params =
           type === PropertyType.model
             ? { mid: selectedRowKeys }
             : { tid: selectedRowKeys };
         const { data } = await fetch<ICheckStatus>({
-          api,
+          api: deleteApi,
           params,
         });
         if (data.status) {
@@ -99,6 +97,7 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
       tagModalStatus.current = TagModalStatus.create;
       setTagEditModalVisible(true);
     }
+    tableRef.current?.refresh();
   };
 
   const handleItemDelte = (type: PropertyType, record: IDataType) => {
@@ -107,16 +106,12 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
         record.tag_name ?? record.model_name
       }」吗？`,
       onOk: async () => {
-        const api =
-          type === PropertyType.model
-            ? apis.model.deleteModel
-            : apis.tag.deleteTag;
         const params =
           type === PropertyType.model
             ? { mid: [record.mid] }
             : { tid: [record.tid] };
         const { data } = await fetch<ICheckStatus>({
-          api,
+          api: deleteApi,
           params,
         });
         if (data.status) {
@@ -144,6 +139,7 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
         editTagId.current = record.tid;
       });
     }
+    tableRef.current?.refresh();
   };
 
   const handleModelAuth = (record: IModelItem) => {

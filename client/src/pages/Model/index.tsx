@@ -53,6 +53,9 @@ const Model: FC = () => {
         bodyStyle={{
           padding: 0,
         }}
+        headerStyle={{
+          display: "none",
+        }}
       >
         <Detail
           mid={currentModelId}

@@ -4,7 +4,23 @@
   overflow: scroll;
   &__board {
     margin-top: 16px;
-    padding-top: 0px;
+    background-color: #ffffff;
+    padding: 16px 0;
+    border-radius: 4ox;
+    box-shadow: 0 2px 8px rgba(175, 175, 175, 0.1);
+    &__tabs {
+      :global {
+        .ant-tabs-nav {
+          width: 120px;
+        }
+        .ant-tabs-tabpane {
+          padding-left: 0px !important;
+        }
+        .ant-tabs-nav-list {
+          margin-top: 16px;
+        }
+      }
+    }
   }
 }
 

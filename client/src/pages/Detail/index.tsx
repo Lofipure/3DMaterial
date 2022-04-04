@@ -114,7 +114,7 @@ const Detail: FC<IDetailPorps> = (props) => {
                 onClick={handleGoodsTo}
                 loading={goodsLoading}
               >
-                {" "}
+                
                 <LikeOutlined />
                 点赞
               </Button>
@@ -124,7 +124,7 @@ const Detail: FC<IDetailPorps> = (props) => {
                   message.success("😊 正在紧张开发中，耐心等待哦～");
                 }}
               >
-                {" "}
+                
                 <ShareAltOutlined />
                 分享
               </Button>

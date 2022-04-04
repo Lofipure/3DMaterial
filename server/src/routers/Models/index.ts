@@ -1,7 +1,7 @@
 import Router from "koa-router";
-import { resCreator } from "../../utils";
-import * as ReqType from "./types";
-import * as ModelMethod from "../../Models/Models";
+import { resCreator } from "@/utils";
+import * as ReqType from "@/types/Model/req.type";
+import * as ModelMethod from "@/Models/Models";
 
 const modelRouter = new Router({
   prefix: "/model",

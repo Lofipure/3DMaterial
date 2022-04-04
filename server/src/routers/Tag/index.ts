@@ -1,5 +1,5 @@
-import { resCreator } from "../../utils";
-import * as TagMethod from "../../Models/Tags";
+import { resCreator } from "@/utils";
+import * as TagMethod from "@/Models/Tags";
 import Router from "koa-router";
 
 const tagRouter = new Router({

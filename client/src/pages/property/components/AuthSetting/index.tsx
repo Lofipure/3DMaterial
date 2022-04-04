@@ -1,6 +1,13 @@
-import React, { FC, useState, useRef, ElementRef, useEffect } from "react";
+import React, {
+  FC,
+  useState,
+  useRef,
+  ElementRef,
+  useEffect,
+  useMemo,
+} from "react";
 import { Modal, Button, message } from "antd";
-import Form from "@/components/Form";
+import Form, { IFieldConfig } from "@/components/Form";
 import Select from "@/components/Select";
 import fetch from "@/fetch";
 import apis from "@/api";
@@ -48,6 +55,32 @@ const AuthSetting: FC<IAuthSetting> = (props) => {
     onComplete?.("cancel");
   };
 
+  const AuthFormFieldsConfig = useMemo<IFieldConfig[]>(
+    () => [
+      {
+        key: "creator_id",
+        name: "creator_id",
+        label: "协作者",
+        initialValue: creatorIds,
+        widget: (
+          <Select
+            apiConfig={apis.user.getUserList}
+            fields={{
+              labelField: "username",
+              valueField: "uid",
+            }}
+            resFormatter={(data) => data.list}
+            mode="multiple"
+            initSearch
+            allowEmptySearch
+            maxTagCount="responsive"
+          />
+        ),
+      },
+    ],
+    [creatorIds],
+  );
+
   useEffect(() => {
     if (!isNil(creatorIds)) {
       formRef.current?.setFieldsValue({
@@ -88,28 +121,7 @@ const AuthSetting: FC<IAuthSetting> = (props) => {
       <Form
         className={styles["auth-form"]}
         ref={formRef}
-        fieldsConfig={[
-          {
-            key: "creator_id",
-            name: "creator_id",
-            label: "协作者",
-            initialValue: creatorIds,
-            widget: (
-              <Select
-                apiConfig={apis.user.getUserList}
-                fields={{
-                  labelField: "username",
-                  valueField: "uid",
-                }}
-                resFormatter={(data) => data.list}
-                mode="multiple"
-                initSearch
-                allowEmptySearch
-                maxTagCount="responsive"
-              />
-            ),
-          },
-        ]}
+        fieldsConfig={AuthFormFieldsConfig}
       ></Form>
     </Modal>
   );

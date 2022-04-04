@@ -1,4 +1,4 @@
-import { SexType } from "../../types";
+import { SexType } from "..";
 
 export interface ILogin {
   email: string;
@@ -22,12 +22,12 @@ export interface IRecord {
   year: number;
 }
 
-export interface IGraph extends IRelativeCreator {}
+export type IGraph = IRelativeCreator;
+export type IAnalyze = IRelativeCreator;
 
-export interface IAnalyze extends IRelativeCreator {}
 export interface IVisit {
   uid: number;
   mid: number;
 }
 
-export interface IGoods extends IVisit {}
+export type IGoods = IVisit;

@@ -1,6 +1,5 @@
 export const PORT = 9015;
 export const IP = "http://localhost";
-// export const IP = "http://10.1.137.248";
 
 export enum saveUserStatus {
   success = 1, // 成功
@@ -27,6 +26,7 @@ export const wihteList = [
   "/tools/model_cover",
   "/tools/model_url",
   "/user/login",
+  "/user/save"
 ];
 
 export const DB_NAME = "3d_material";

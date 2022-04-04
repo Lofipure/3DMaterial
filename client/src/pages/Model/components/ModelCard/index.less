@@ -2,11 +2,13 @@
   width: 284px;
   height: 350px;
   background-color: #ffffff;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   transition: all 0.2s ease;
   &__img {
     height: 160px;
-    width: 100%;
+    width: auto;
   }
   &__body {
     padding: 16px;
@@ -63,5 +65,13 @@
     cursor: pointer;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     transform: translateY(-10px);
+  }
+
+  :global {
+    .ant-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }

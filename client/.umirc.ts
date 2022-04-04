@@ -3,7 +3,6 @@ import chainWebpack from "webpack-chain";
 
 const _config = defineConfig({
   sass: {},
-  favicon: "http://114.116.246.240:1188/3DMaterial/logo.ico",
   nodeModulesTransform: {
     type: "none",
   },

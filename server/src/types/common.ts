@@ -1,4 +1,4 @@
-import { SexType } from "../types";
+import { SexType } from ".";
 
 export interface IUserProps {
   uid: number;

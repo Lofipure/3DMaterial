@@ -1,5 +1,5 @@
-import { AuthControl } from "src/types";
-import { IModel } from "src/types/User";
+import { IModel } from "@/types/common";
+import { AuthControl } from "@/types";
 
 export interface ISave extends IModel {
   auth: AuthControl;
