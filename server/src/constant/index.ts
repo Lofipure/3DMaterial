@@ -26,7 +26,7 @@ export const wihteList = [
   "/tools/model_cover",
   "/tools/model_url",
   "/user/login",
-  "/user/save"
+  "/user/save",
 ];
 
 export const DB_NAME = "3d_material";

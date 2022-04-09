@@ -45,10 +45,10 @@ const BaseInfo: FC<IBaseInfoProps> = (props) => {
           </div>
         }
       >
-        {modelInfo?.relative_model_list.map((model) => (
+        {modelInfo?.relative_model_list.map((model, idx) => (
           <List.Item
             className={styles["base-info__left__list__item"]}
-            key={model.mid}
+            key={idx}
           >
             <Tag color="processing">{model.tag_name}</Tag>
             {model.model_name}

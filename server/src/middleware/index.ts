@@ -12,6 +12,10 @@ export const checkAuthMiddleware = async (
   ctx: Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext, any>,
   next: Koa.Next,
 ) => {
+  if (ctx.path.includes("/file")) {
+    await next();
+    return;
+  }
   if (!wihteList.includes(ctx.path)) {
     const login_token = ctx.cookies.get(TOKEN_COOKIE_KEY);
     const email = ctx.cookies.get(EMAIL_COOKIE_KEY);
@@ -35,7 +39,7 @@ export const checkAuthMiddleware = async (
 };
 
 /**
- * Debug 专用中间件 
+ * Debug 专用中间件
  */
 export const debugMiddleware = async (
   ctx: Koa.ParameterizedContext<Koa.DefaultState, Koa.DefaultContext, any>,
