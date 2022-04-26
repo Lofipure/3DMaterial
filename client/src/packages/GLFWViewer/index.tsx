@@ -3,7 +3,8 @@ import { Spin } from "antd";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { HEIGHT } from "./config";
+
+export const HEIGHT = 580;
 
 interface IGLFWViewerProps {
   url: string;
@@ -112,7 +113,7 @@ const GLFWViewer: FC<IGLFWViewerProps> = (props) => {
         style={{ height: HEIGHT, width: "100%" }}
         id={"canvas-frame"}
         ref={updateSize}
-      ></div>
+      />
     </Spin>
   );
 };

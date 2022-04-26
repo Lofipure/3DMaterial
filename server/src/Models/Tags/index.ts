@@ -1,12 +1,14 @@
 import moment from "moment";
-import { Op } from "sequelize";
+import { col, fn, Op } from "sequelize";
 import {
   Tag,
   TagsAndUsers,
   User,
   TagsAndModels,
+  Goods,
 } from "../../connection/modelDefine";
 import { ITagDataItem } from "./types";
+import * as AnalyzeResType from "@/types/Analyze/res.type";
 
 /** 检查是否有重名表标签 */
 export const checkTagName = async (tagName: string) => {
@@ -180,3 +182,85 @@ export const deleteTags = async (tagIds: number[]) => {
     status: !!deleteRelaWithModel && !!deleteRelaWithUser && !!deleteTag,
   };
 };
+
+/** 分析模型标签类型占比 */
+export const getModelTypeAnalyze =
+  async (): Promise<AnalyzeResType.IModelTypeAnalyze> => {
+    const __result = await Promise.all(
+      (
+        await TagsAndModels.findAll({
+          attributes: ["tid"],
+          group: ["tid"],
+          include: [
+            {
+              association: Tag.hasOne(Tag, {
+                foreignKey: "tid",
+              }),
+            },
+          ],
+        })
+      ).map(async (item) => {
+        const { tid, tag } = item.get();
+        const { count } = await TagsAndModels.findAndCountAll({
+          where: {
+            tid,
+          },
+        });
+        return {
+          name: tag?.tag_name,
+          value: count,
+        };
+      }),
+    );
+    return {
+      list: __result,
+      total: __result.reduce<number>((cnt, item) => cnt + item.value, 0),
+    };
+  };
+
+// 标签热度分布
+export const getTagPopularAnalyze =
+  async (): Promise<AnalyzeResType.ITagPopularityAnalyze> => {
+    const tagPopular = await Promise.all(
+      (
+        await TagsAndModels.findAll({
+          group: ["tid"],
+          attributes: ["tid"],
+          include: [
+            {
+              association: Tag.hasOne(TagsAndModels, {
+                foreignKey: "tid",
+              }),
+              attributes: ["tag_name"],
+            },
+          ],
+        })
+      ).map(async (item) => {
+        const { tid, tags_and_model: tag } = item.get();
+        const modelList = await TagsAndModels.findAll({
+          where: {
+            tid,
+          },
+          attributes: ["mid"],
+          include: [
+            {
+              association: TagsAndModels.hasMany(Goods, {
+                foreignKey: "mid",
+              }),
+              attributes: ["record_id"],
+            },
+          ],
+        });
+        return {
+          name: tag?.tag_name,
+          value: modelList?.reduce<number>(
+            (cnt, item) => cnt + item.get()?.goods?.length,
+            0,
+          ),
+        };
+      }),
+    );
+    return {
+      list: tagPopular,
+    };
+  };

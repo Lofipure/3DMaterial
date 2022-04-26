@@ -1,5 +1,6 @@
 import * as ModelReqType from "@/types/Model/req.type";
 import * as ModelResType from "@/types/Model/res.type";
+import _ from "lodash";
 import {
   Model,
   ModelsAndUsers,
@@ -11,9 +12,10 @@ import {
   Goods,
   UpdateModel,
 } from "../../connection/modelDefine";
-import { Op, Model as SeqModel } from "sequelize";
+import { Op, Model as SeqModel, fn, Sequelize, col } from "sequelize";
 import moment from "moment";
-import { AuthControl } from "../../types";
+import { AuthControl } from "@/types";
+import * as AnalyzeResType from "@/types/Analyze/res.type";
 
 /** 保存模型 */
 export const saveModel = async (
@@ -499,3 +501,116 @@ export const getModelDetail = async (req: ModelReqType.IDetail) => {
     relative_model_list: relative_model_list.flatMap((item) => item),
   };
 };
+
+/** 获取模型维度的分析数据 */
+export const getModelVisitAnalyze =
+  async (): Promise<AnalyzeResType.IModelVisitAnalyze> => {
+    const modelVisit = (
+      await Visit.findAll({
+        attributes: ["mid", [fn("COUNT", col("record_id")), "value"]],
+        group: ["mid"],
+        include: [
+          {
+            association: Model.hasOne(Model, {
+              foreignKey: "mid",
+            }),
+            attributes: ["model_name"],
+          },
+        ],
+      })
+    ).map((item) => {
+      const atom = item.get();
+
+      return {
+        name: atom?.model?.model_name,
+        value: atom?.value,
+      };
+    });
+
+    const dailyVisit = (
+      await Visit.findAll({
+        attributes: ["createdAt"],
+      })
+    ).reduce<{ name: string; value: number }[]>((list, item: any) => {
+      const { createdAt } = item;
+      const atom = list.find(
+        (_item) => _item?.name == new Date(createdAt).toDateString(),
+      );
+      if (!atom) {
+        list.push({
+          name: new Date(createdAt).toDateString(),
+          value: 1,
+        });
+      } else {
+        ++atom.value;
+      }
+      return list;
+    }, []);
+
+    const popularModel = _.first(
+      (
+        await Goods.findAll({
+          group: ["mid"],
+          attributes: ["mid", [fn("COUNT", col("record_id")), "cnt"]],
+          include: [
+            {
+              association: Model.hasOne(Model, {
+                foreignKey: "mid",
+              }),
+              as: "model",
+              attributes: ["mid", "model_name"],
+            },
+          ],
+        })
+      )
+        .map((item) => item.get())
+        .sort((a, b) => b.cnt - a.cnt),
+    );
+    const { mid, model_name } = popularModel.model as {
+      mid: string;
+      model_name: string;
+    };
+
+    return {
+      model_visit: modelVisit,
+      daily_visit: dailyVisit,
+      popular_model: {
+        mid,
+        model_name,
+        goods: popularModel?.cnt ?? 0,
+      },
+    };
+  };
+
+// 系统数据综合分析
+export const getComprehensiveAyalyze =
+  async (): Promise<AnalyzeResType.IComprehensiveAnalyze> => {
+    const { count: model_cnt } = await Model.findAndCountAll();
+    const { count: user_cnt } = await User.findAndCountAll();
+
+    const popularModel = _.first(
+      (
+        await Goods.findAll({
+          group: ["mid"],
+          attributes: ["mid", [fn("COUNT", col("record_id")), "cnt"]],
+          include: [
+            {
+              association: Model.hasOne(Model, {
+                foreignKey: "mid",
+              }),
+              as: "model",
+              attributes: ["mid", "model_name", "model_cover"],
+            },
+          ],
+        })
+      )
+        .map((item) => item.get())
+        .sort((a, b) => b.cnt - a.cnt),
+    );
+
+    return {
+      model_cnt,
+      user_cnt,
+      popular_model: popularModel.model.get() as any,
+    };
+  };
