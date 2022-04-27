@@ -534,11 +534,11 @@ export const getModelVisitAnalyze =
     ).reduce<{ name: string; value: number }[]>((list, item: any) => {
       const { createdAt } = item;
       const atom = list.find(
-        (_item) => _item?.name == new Date(createdAt).toDateString(),
+        (_item) => _item?.name == new Date(createdAt).toLocaleDateString(),
       );
       if (!atom) {
         list.push({
-          name: new Date(createdAt).toDateString(),
+          name: new Date(createdAt).toLocaleDateString(),
           value: 1,
         });
       } else {

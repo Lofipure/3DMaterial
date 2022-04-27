@@ -27,6 +27,7 @@ interface IBarChartProps {
   showLabel?: boolean;
   yAxisName?: string;
   style?: CSSProperties;
+  yAxisSplitLine?: boolean;
 }
 
 const BarChart: React.FC<IBarChartProps> = (props: IBarChartProps) => {
@@ -45,6 +46,7 @@ const BarChart: React.FC<IBarChartProps> = (props: IBarChartProps) => {
     yAxisName = "",
     height,
     style,
+    yAxisSplitLine = false,
   } = props;
   const maxValue = _.max(data.map((item) => item.value)) || 0;
   let option = {
@@ -76,7 +78,7 @@ const BarChart: React.FC<IBarChartProps> = (props: IBarChartProps) => {
         color: axisColor,
       },
       splitLine: {
-        show: false,
+        show: yAxisSplitLine,
       },
       axisLine: {
         show: yAxisName.length,
@@ -86,7 +88,7 @@ const BarChart: React.FC<IBarChartProps> = (props: IBarChartProps) => {
       },
       nameGap: 2,
       axisTick: {
-        show: false,
+        show: true,
         lineStyle: {
           show: false,
         },
