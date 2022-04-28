@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*' -e ts,tsx --exec 'ts-node' -r tsconfig-paths/register ./src/app.ts --files",
     "build": "tsc",
-    "table_init": "tsc && node ./dist/connection/tableInit.js"
+    "table_init": "tsc && node ./dist/connection/tableInit.js",
+    "update_url": "tsc && node ./dist/connection/updateURL.js"
   },
   "dependencies": {
     "dayjs": "^1.10.7",

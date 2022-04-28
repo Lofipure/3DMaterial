@@ -7,7 +7,8 @@
     "start": "concurrently -n Client,Server -p \"[{name} {time}]\" -c gray \"cd client && yarn start\" -t \"HH:mm:ss\" \"cd server && yarn dev\"",
     "start:server": "cd server && yarn dev",
     "start:client": "cd client && yarn start",
-    "init:table": "cd server && yarn table_init"
+    "init:table": "cd server && yarn table_init",
+    "update:url": "cd server && yarn update_url"
   },
   "dependencies": {
     "concurrently": "^7.0.0"

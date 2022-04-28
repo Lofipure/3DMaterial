@@ -34,7 +34,7 @@ app.use(debugMiddleware);
 /**
  * 检查登录态
  */
-// app.use(checkAuthMiddleware);
+app.use(checkAuthMiddleware);
 
 app.use(userRouter.routes());
 app.use(userRouter.allowedMethods());

@@ -1,5 +1,6 @@
 export const PORT = 9015;
-export const IP = "http://localhost";
+// export const IP = "http://localhost";
+export const IP = "http://192.168.1.100";
 
 export enum saveUserStatus {
   success = 1, // 成功

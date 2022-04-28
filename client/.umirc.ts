@@ -10,6 +10,9 @@ const _config = defineConfig({
   history: {
     type: "hash",
   },
+  dynamicImport: {
+    loading: "@/components/Loading",
+  },
   routes: [
     {
       exact: false,
