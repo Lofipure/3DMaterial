@@ -1,7 +1,25 @@
-import { IFieldConfig } from "@/components/Form";
 import { Input, Radio } from "antd";
+import apis from "@/api";
+import { IFieldConfig } from "@/components/Form";
+import Upload from "@/components/Upload";
+import { UploadFileKey } from "@/constant/enums";
 
 export const editFormFieldsConfig: IFieldConfig[] = [
+  {
+    key: "user_avatar",
+    name: "user_avatar",
+    label: "头像",
+    widget: (
+      <Upload
+        api={apis.tools.uploadUserAvatar.url}
+        dataKey={UploadFileKey.USER_AVATAR}
+        listType="picture"
+        showUploadList={false}
+        empty={<div>点击上传</div>}
+        useCustomer={false}
+      />
+    ),
+  },
   {
     key: "email",
     name: "email",

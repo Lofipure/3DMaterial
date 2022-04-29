@@ -8,7 +8,7 @@ import {
 import fetch from "@/fetch";
 import apis from "@/api";
 import { getUserLocalInfo, isNil } from "@/utils";
-import { IModelDetail } from "./types";
+import { IModelDetail, TabKeys } from "./types";
 import BaseInfo from "./components/BaseInfo";
 import ModelShow from "./components/ModelShow";
 import styles from "./index.less";
@@ -24,6 +24,7 @@ const Detail: FC<IDetailPorps> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [modelDetail, setModelDetail] = useState<IModelDetail>();
   const [goodsLoading, setGoodsLoading] = useState<boolean>(false);
+  const [activeKey, setActiveKey] = useState<TabKeys>(TabKeys.baseInfo);
 
   const fetchModelDetail = async (mid: number) => {
     setLoading(true);
@@ -43,14 +44,14 @@ const Detail: FC<IDetailPorps> = (props) => {
   const tabsConfig = useMemo(
     () => [
       {
-        key: "baseInfo",
+        key: TabKeys.baseInfo,
         name: "基本信息",
         component: (
           <BaseInfo modelInfo={modelDetail} className={styles["content"]} />
         ),
       },
       {
-        key: "modelShow",
+        key: TabKeys.modelShow,
         name: "模型展示",
         component: (
           <ModelShow
@@ -83,6 +84,12 @@ const Detail: FC<IDetailPorps> = (props) => {
 
     setGoodsLoading(false);
   };
+
+  const handleBack = () => {
+    setActiveKey(TabKeys.baseInfo);
+    onBack();
+  };
+
   useEffect(() => {
     if (isNil(mid)) return;
     fetchModelDetail(mid as number);
@@ -93,7 +100,7 @@ const Detail: FC<IDetailPorps> = (props) => {
       <Spin spinning={loading} wrapperClassName={styles["detail__spin"]}>
         <div className={styles["detail__header"]}>
           <div className={styles["detail__header__back"]}>
-            <Button onClick={onBack} type="link">
+            <Button onClick={handleBack} type="link">
               <RollbackOutlined color="#1890FF" size={14} />
               返回广场
             </Button>
@@ -106,7 +113,9 @@ const Detail: FC<IDetailPorps> = (props) => {
           </div>
         </div>
         <Tabs
+          activeKey={activeKey}
           className={styles["detail__tabs"]}
+          onChange={(key) => setActiveKey(key as any)}
           tabBarExtraContent={
             <Button.Group className={styles["detail__operations"]}>
               <Button
@@ -124,7 +133,7 @@ const Detail: FC<IDetailPorps> = (props) => {
                 }}
               >
                 <ShareAltOutlined />
-                分享
+                增强现实(AR)查看
               </Button>
             </Button.Group>
           }

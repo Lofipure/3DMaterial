@@ -5,5 +5,33 @@
     padding-top: 24px;
     height: calc(100vh - 148px);
     overflow: scroll;
+    :global {
+      .ant-spin-nested-loading {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.search {
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  &__item {
+    margin-bottom: 16px;
+    margin-right: 8px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .search {
+    width: 1168px;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 1200px) {
+  .search {
+    width: 90%;
   }
 }

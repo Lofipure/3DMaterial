@@ -1,5 +1,9 @@
 import { Sex } from "@/types";
 
+export enum TabKeys {
+  baseInfo = "baseInfo",
+  modelShow = "modelShow",
+}
 interface ICreator {
   uid: number;
   username: string;

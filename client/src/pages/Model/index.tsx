@@ -1,12 +1,12 @@
 import React, { FC, useState, useEffect } from "react";
-import { Drawer } from "antd";
+import { Drawer, Spin } from "antd";
 import fetch from "@/fetch";
 import apis from "@/api";
 import { getUserLocalInfo } from "@/utils";
 import Detail from "@/pages/Detail";
 import Search from "./components/Search";
-import Result from "./components/Result";
 import { IParams, IModel } from "./types";
+import ModelCard from "./components/ModelCard";
 import styles from "./index.less";
 
 const Model: FC = () => {
@@ -66,11 +66,18 @@ const Model: FC = () => {
         <Search onSearch={handleOnSearch} />
       </div>
       <div className={styles["model-page__body"]}>
-        <Result
-          loading={loading}
-          onClick={handleClickModel}
-          modelList={modelList}
-        />
+        <Spin spinning={loading}>
+          <div className={styles["search"]}>
+            {modelList.map((item) => (
+              <ModelCard
+                onClick={handleClickModel}
+                classname={styles["search__item"]}
+                key={item.mid}
+                modelInfo={item}
+              />
+            ))}
+          </div>
+        </Spin>
       </div>
     </div>
   );

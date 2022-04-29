@@ -18,12 +18,12 @@ export const routes: Route[] = [
   {
     path: routesPath.analyze,
     name: "分析面板",
-    icon: <PieChartOutlined size={14} />,
+    icon: <PieChartOutlined />,
   },
   {
     path: routesPath.property,
     name: "我的资产",
-    icon: <FileSyncOutlined size={14} />,
+    icon: <FileSyncOutlined />,
   },
   {
     path: routesPath.mine,
@@ -36,8 +36,9 @@ export const layoutConfig: BasicLayoutProps = {
   contentWidth: "Fixed",
   splitMenus: false,
   fixSiderbar: true,
-  layout: "top",
-  navTheme: "dark",
+  layout: "mix",
+  navTheme: "light",
+  fixedHeader: true,
 };
 
 export const Logo = <img src={logo} alt="" />;

@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
-import { Statistic, Image, Spin, Table } from "antd";
+import { Statistic, Image, Spin, Table, Radio } from "antd";
+import { LikeOutlined } from "@ant-design/icons";
 import { Column, Pie, Area } from "@ant-design/charts";
 import { cloneDeep } from "lodash";
 import classNames from "classnames";
@@ -11,8 +12,8 @@ import {
   IModelVisitAnalyze,
   ITagPopularityAnalyze,
 } from "./type";
+import { ModelVisitMode, modelVisitOptions, tableColumns } from "./config";
 import styles from "./indedx.less";
-import Ellipsis from "@/components/Ellipsis";
 
 const Analyze: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -20,13 +21,16 @@ const Analyze: FC = () => {
   const [modelVisit, setModelVisit] = useState<IModelVisitAnalyze>();
   const [tagPopularity, setTagPopularity] = useState<ITagPopularityAnalyze>();
   const [comprehensive, setComprehensive] = useState<IComprehensiveAnalyze>();
+  const [modelVisitMode, setModelVisitMode] = useState<ModelVisitMode>(
+    ModelVisitMode.area,
+  );
 
   const fetchModelTypeAnalyze = async () =>
     fetch<IModelTypeAnalyze>({
       api: apis.analyze.getModelTypeAnalyze,
     });
 
-  const fetchModelVisitAnaulyze = async () =>
+  const fetchModelVisitAnalyze = async () =>
     fetch<IModelVisitAnalyze>({
       api: apis.analyze.getModelVisitAnalyze,
     });
@@ -45,7 +49,7 @@ const Analyze: FC = () => {
     setLoading(true);
     const fetchList = [
       fetchModelTypeAnalyze(),
-      fetchModelVisitAnaulyze(),
+      fetchModelVisitAnalyze(),
       fetchTagPopularity(),
       fetchComprehensiveAnalyze(),
     ].map(async (item) => (await item).data);
@@ -96,17 +100,8 @@ const Analyze: FC = () => {
             data={cloneDeep(modelType?.list) ?? []}
             angleField={"value"}
             colorField={"name"}
-            radius={1}
+            radius={0.8}
             autoFit
-            innerRadius={0.6}
-            statistic={{
-              title: {
-                content: "模型总数",
-              },
-              content: {
-                content: `${modelType?.total ?? 0}`,
-              },
-            }}
             tooltip={false}
             label={{
               type: "inner",
@@ -127,60 +122,59 @@ const Analyze: FC = () => {
   const ModelVisit = useMemo<JSX.Element>(
     () => (
       <div className={styles["card"]}>
-        <div className={styles["card__title"]}>模型访问情况汇总</div>
+        <div className={styles["card__title"]}>
+          模型访问情况汇总
+          <Radio.Group
+            options={modelVisitOptions}
+            value={modelVisitMode}
+            onChange={(e) =>
+              setModelVisitMode(e.target.value as ModelVisitMode)
+            }
+          />
+        </div>
         <div
           className={classNames(styles["card__body"], styles["model-visit"])}
         >
-          <div className={styles["model-visit__left"]}>
-            <div className={styles["model-visit__title"]}>日访问量变化</div>
-            <div>
-              <Area
-                height={350}
-                data={cloneDeep(modelVisit?.daily_visit) ?? []}
-                xField={"name"}
-                yField={"value"}
-                autoFit
-                smooth
+          {modelVisitMode == ModelVisitMode.table ? (
+            <>
+              <div className={styles["model-visit__title"]}>模型访问量排名</div>
+              <Table
+                rowKey={"name"}
+                dataSource={modelVisit?.model_visit.map((item, index) => ({
+                  index: index + 1,
+                  ...item,
+                }))}
+                columns={tableColumns}
+                pagination={false}
               />
-            </div>
-          </div>
-          <div className={styles["model-visit__right"]}>
-            <div className={styles["model-visit__title"]}>模型访问排行榜</div>
-            <Table
-              rowKey={"name"}
-              size="small"
-              dataSource={modelVisit?.model_visit.map((item, index) => ({
-                index: index + 1,
-                ...item,
-              }))}
-              columns={[
-                {
-                  key: "index",
-                  title: "排名",
-                  dataIndex: "index",
-                },
-                {
-                  key: "name",
-                  title: "名称",
-                  dataIndex: "name",
-                  width: 170,
-                  render: (value) => <Ellipsis text={value} />,
-                },
-                {
-                  key: "value",
-                  title: "访问次数",
-                  dataIndex: "value",
-                  width: 100,
-                  align: "right",
-                },
-              ]}
-              pagination={false}
-            />
-          </div>
+            </>
+          ) : (
+            <>
+              <div className={styles["model-visit__title"]}>日访问量变化</div>
+              <div>
+                <Area
+                  height={240}
+                  data={cloneDeep(modelVisit?.daily_visit) ?? []}
+                  xField={"name"}
+                  yField={"value"}
+                  autoFit
+                  smooth
+                />
+                <div className={styles["model-visit__popular"]}>
+                  <div className={styles["model-visit__popular__header"]}>
+                    最受欢迎模型：
+                  </div>
+                  <div className={styles["model-visit__popular__body"]}>
+                    <LikeOutlined /> {modelVisit?.popular_model?.model_name}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     ),
-    [modelVisit],
+    [modelVisit, modelVisitMode],
   );
 
   const Comprehensive = useMemo<JSX.Element>(

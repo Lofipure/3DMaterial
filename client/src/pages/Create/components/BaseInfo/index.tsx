@@ -7,13 +7,13 @@ import React, {
   useRef,
 } from "react";
 import classNames from "classnames";
-import { Form, Input, Image, message, Modal, Button } from "antd";
+import { Form, Input, message, Modal, Button } from "antd";
 import Upload from "@/components/Upload";
 import { last } from "lodash";
 import { Rule } from "antd/lib/form";
 import {
+  DownloadOutlined,
   InboxOutlined,
-  PlusOutlined,
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import CustomerForm from "@/components/Form";
@@ -24,8 +24,8 @@ import { getUserLocalInfo } from "@/utils";
 import { IBaseInfo } from "@/pages/Create/types";
 import { tagEditFormFieldsConfig } from "@/pages/Property/components/SearchTable/config";
 import { ICheckStatus } from "@/types";
-import { AuthControlOptions } from "./config";
 import { UploadFileKey } from "@/constant/enums";
+import { AuthControlOptions } from "./config";
 import styles from "./index.less";
 
 interface IBaseInfoProps {
@@ -44,9 +44,6 @@ export interface IBaseInfoHandler {
 const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
   const { className, baseInfo } = props;
   const [baseInfoForm] = Form.useForm<IBaseInfo>();
-  const [coverUrl, setCoverUrl] = useState<string>(
-    baseInfo?.model_cover ?? baseInfoForm.getFieldValue("model_cover"),
-  );
   const [tagEditModalVisible, setTagEditModalVisible] =
     useState<boolean>(false);
   const [addTagLoading, setAddTagLoading] = useState<boolean>(false);
@@ -113,10 +110,10 @@ const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
     setFieldsValue: (value) => {
       setModelFileURL(value.model_url);
       baseInfoForm.setFieldsValue(value);
-      setCoverUrl(value.model_cover);
+      // setCoverUrl(value.model_cover);
     },
     resetFieldsValue: () => {
-      setCoverUrl(undefined as any);
+      // setCoverUrl(undefined as any);
       setModelFileURL(undefined as any);
       baseInfoForm.resetFields();
     },
@@ -166,7 +163,7 @@ const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
         <CustomerForm
           fieldsConfig={tagEditFormFieldsConfig}
           ref={createTagRef}
-        ></CustomerForm>
+        />
       </Modal>
       <Form form={baseInfoForm} className={styles["base-info__form"]}>
         <Form.Item
@@ -243,10 +240,16 @@ const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
             dataKey={UploadFileKey.MODEL_URL}
             empty={<div>点击或拖拽文件到此处以上传</div>}
             onValueChange={(data) => setModelFileURL(data)}
+            className={styles["base-info__form__upload"]}
             contentRender={() => (
               <>
                 {modelFileURL?.length ? (
-                  <div>{modelFileURL}</div>
+                  <Button
+                    onClick={() => window.open(modelFileURL)}
+                    icon={<DownloadOutlined />}
+                  >
+                    点击下载
+                  </Button>
                 ) : (
                   <div className={styles["upload"]}>
                     <InboxOutlined
@@ -274,6 +277,7 @@ const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
           style={{ width: "100%" }}
         >
           <Upload
+            useCustomer={false}
             name="model_cover"
             listType="picture"
             showUploadList={false}
@@ -281,24 +285,7 @@ const BaseInfo = forwardRef<IBaseInfoHandler, IBaseInfoProps>((props, ref) => {
             beforeUpload={handleBeforeCoverUpload}
             api={apis.tools.uploadModelCover.url}
             dataKey={UploadFileKey.MODEL_COVER}
-            empty={<div>点击或拖拽文件到此处以上传</div>}
-            onValueChange={(data) => setCoverUrl(data)}
-            contentRender={() =>
-              coverUrl?.length ? (
-                <Image
-                  className={styles["cover"]}
-                  preview={false}
-                  src={coverUrl}
-                />
-              ) : (
-                <div className={styles["cover-uploader__content"]}>
-                  <PlusOutlined
-                    className={styles["cover-uploader__content__icon"]}
-                  />
-                  <div style={{ marginTop: 8 }}>点击上传模型封面</div>
-                </div>
-              )
-            }
+            imageWidth={400}
           ></Upload>
         </Form.Item>
         <Form.Item

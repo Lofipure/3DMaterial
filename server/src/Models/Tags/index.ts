@@ -1,5 +1,5 @@
 import moment from "moment";
-import { col, fn, Op } from "sequelize";
+import { Op } from "sequelize";
 import {
   Tag,
   TagsAndUsers,
@@ -242,21 +242,23 @@ export const getTagPopularAnalyze =
             tid,
           },
           attributes: ["mid"],
-          include: [
-            {
-              association: TagsAndModels.hasMany(Goods, {
-                foreignKey: "mid",
-              }),
-              attributes: ["record_id"],
-            },
-          ],
         });
+        const goods = (
+          await Promise.all(
+            modelList?.map(async (item) => {
+              const { mid } = item.get();
+              const { count } = await Goods.findAndCountAll({
+                where: {
+                  mid,
+                },
+              });
+              return count;
+            }),
+          )
+        ).reduce<number>((total, value) => total + value, 0);
         return {
           name: tag?.tag_name,
-          value: modelList?.reduce<number>(
-            (cnt, item) => cnt + item.get()?.goods?.length,
-            0,
-          ),
+          value: goods,
         };
       }),
     );

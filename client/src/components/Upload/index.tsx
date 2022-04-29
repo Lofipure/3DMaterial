@@ -1,5 +1,6 @@
-import React, { FC, useState, ReactNode } from "react";
-import { Upload, UploadProps } from "antd";
+import React, { FC, useState, ReactNode, useEffect } from "react";
+import { Upload, UploadProps, Image, Button } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 
 interface ICustomerUpload extends UploadProps {
@@ -9,6 +10,8 @@ interface ICustomerUpload extends UploadProps {
   contentRender?: () => JSX.Element;
   onValueChange?: (data: string) => void;
   useCustomer?: boolean;
+  value?: string;
+  imageWidth?: number;
 }
 
 const CustomerUpload: FC<ICustomerUpload> = (props) => {
@@ -18,6 +21,8 @@ const CustomerUpload: FC<ICustomerUpload> = (props) => {
     contentRender,
     onValueChange,
     useCustomer = true,
+    value,
+    imageWidth = 100,
   } = props;
   const [path, setPath] = useState<string>("");
 
@@ -42,6 +47,12 @@ const CustomerUpload: FC<ICustomerUpload> = (props) => {
     props.onChange?.(path as any);
   };
 
+  useEffect(() => {
+    if (value) {
+      setPath(value);
+    }
+  }, [value]);
+
   return (
     <Upload
       {...props}
@@ -49,7 +60,13 @@ const CustomerUpload: FC<ICustomerUpload> = (props) => {
       onChange={handleOnChange}
       name={dataKey}
     >
-      {useCustomer ? contentRender?.() : <div>default</div>}
+      {useCustomer ? (
+        contentRender?.()
+      ) : !path ? (
+        <Button icon={<UploadOutlined />}>点击上传</Button>
+      ) : (
+        <Image src={path} preview={false} width={imageWidth} />
+      )}
     </Upload>
   );
 };

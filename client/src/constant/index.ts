@@ -9,7 +9,6 @@ export const PORT = 9015;
 export const IP = "http://localhost";
 
 export const ROOT_PATH = IP + ":" + PORT;
-// export const ROOT_PATH = "/api";
 
 export const TEXT_PLACEHOLDER = "--";
 

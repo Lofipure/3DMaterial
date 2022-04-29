@@ -60,38 +60,38 @@ const ModelCard: FC<IModelCard> = (props) => {
             </Tag>
           ))}
         </div>
-      </div>
-      <div className={styles["model-card__footer"]}>
-        <div className={styles["model-card__footer__left"]}>
-          <div className={styles["model-card__footer__item"]}>
-            <LikeOutlined
-              size={16}
-              color="#8f8f8f"
-              className={styles["model-card__footer__icon"]}
-            />
-            <span className={styles["model-card__footer__text"]}>
-              {modelInfo.model_goods}
-            </span>
+        <div className={styles["model-card__info"]}>
+          <div className={styles["model-card__info__left"]}>
+            <div className={styles["model-card__info__item"]}>
+              <LikeOutlined
+                size={16}
+                color="#8f8f8f"
+                className={styles["model-card__info__icon"]}
+              />
+              <span className={styles["model-card__info__text"]}>
+                {modelInfo.model_goods}
+              </span>
+            </div>
+            <div className={styles["model-card__info__item"]}>
+              <EyeOutlined
+                size={16}
+                color="#8f8f8f"
+                className={styles["model-card__info__icon"]}
+              />
+              <span className={styles["model-card__info__text"]}>
+                {modelInfo.model_visited}
+              </span>
+            </div>
           </div>
-          <div className={styles["model-card__footer__item"]}>
-            <EyeOutlined
-              size={16}
-              color="#8f8f8f"
-              className={styles["model-card__footer__icon"]}
-            />
-            <span className={styles["model-card__footer__text"]}>
-              {modelInfo.model_visited}
-            </span>
+          <div className={styles["model-card__info__right"]}>
+            <Avatar.Group>
+              {Array.from(modelInfo.creator_list).map((creator) => (
+                <Tooltip overlay={creator.username} key={creator.uid}>
+                  <Avatar key={creator.uid} src={creator.user_avatar} />
+                </Tooltip>
+              ))}
+            </Avatar.Group>
           </div>
-        </div>
-        <div className={styles["model-card__footer__right"]}>
-          <Avatar.Group>
-            {Array.from(modelInfo.creator_list).map((creator) => (
-              <Tooltip overlay={creator.username} key={creator.uid}>
-                <Avatar key={creator.uid} src={creator.user_avatar} />
-              </Tooltip>
-            ))}
-          </Avatar.Group>
         </div>
       </div>
     </div>

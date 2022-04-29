@@ -1,8 +1,18 @@
+@primary-color: rgba(24, 144, 255, 0.8);
+
 .base-info {
   margin-top: 16px;
   &__form {
     margin: 0 auto;
     width: 520px;
+    &__upload {
+      width: 100%;
+      :global {
+        .ant-upload {
+          width: 100%;
+        }
+      }
+    }
   }
   &__add-tag {
     cursor: pointer;
@@ -10,7 +20,7 @@
     align-items: center;
     padding-left: 13px;
     height: 32px;
-    color: rgba(24, 144, 255, 0.8);
+    color: @primary-color;
     &__icon {
       margin-right: 8px;
     }
@@ -18,9 +28,22 @@
 }
 
 .upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border: 1px dashed #dadada;
+  background-color: #fafafa;
+  border-radius: 4px;
+  transition: all 0.1s;
+  &:hover {
+    border-color: @primary-color;
+  }
+  padding: 16px 8px;
   &__icon {
     font-size: 48px;
-    color: rgba(24, 144, 255, 0.8);
+    color: @primary-color;
   }
   &__text {
     font-size: 16px;
@@ -48,7 +71,7 @@
   }
   &__content {
     &:hover {
-      border-color: rgba(24, 144, 255, 0.8);
+      border-color: @primary-color;
     }
     border-radius: 2px;
     transition: all 0.2s linear;
@@ -62,7 +85,7 @@
     cursor: pointer;
     &__icon {
       font-size: 24px;
-      color: rgba(24, 144, 255, 0.8);
+      color: @primary-color;
     }
   }
 }

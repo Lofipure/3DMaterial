@@ -1,6 +1,5 @@
-import React, { FC, useState } from "react";
+import React, { FC, useCallback } from "react";
 import Vditor from "vditor";
-import { Spin } from "antd";
 import "vditor/src/assets/scss/index.scss";
 
 interface IMarkdownParser {
@@ -11,7 +10,6 @@ interface IMarkdownParser {
 
 const MarkdownParser: FC<IMarkdownParser> = (props) => {
   const { mode = "view", value, onChange } = props;
-  const [loading, setLoading] = useState<boolean>(false);
   const toolbarconfig = [
     "outline",
     "|",
@@ -29,46 +27,44 @@ const MarkdownParser: FC<IMarkdownParser> = (props) => {
     "ordered-list",
   ];
 
-  const render = (node: HTMLDivElement) => {
-    if (mode == "edit") {
-      new Vditor(node, {
-        minHeight: 400,
-        comment: {
-          enable: false,
-        },
-        mode: "ir",
-        toolbar: toolbarconfig,
-        value: value ?? ":::",
-        cache: {
-          enable: false,
-        },
-        input: (value) => {
-          onChange?.(value);
-        },
-      });
-    } else {
-      if (value && value != undefined) {
-        Vditor.preview(node, value, {
-          mode: "light",
-        });
-      }
-    }
-  };
-
-  return (
-    <Spin spinning={loading}>
-      <div
-        ref={(node) => {
-          setLoading(!node);
-          if (node) {
-            render(node);
+  const containerRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (node) {
+        if (mode === "edit") {
+          new Vditor(node, {
+            minHeight: 400,
+            comment: {
+              enable: false,
+            },
+            mode: "ir",
+            toolbar: toolbarconfig,
+            value:
+              value || "请开始你的创作吧，编辑器已全面支持 `markdown` 语法",
+            cache: {
+              enable: false,
+            },
+            input: (value) => {
+              onChange?.(value);
+            },
+          });
+        } else {
+          if (value && value != undefined) {
+            Vditor.preview(node, value, {
+              mode: "light",
+            });
           }
-        }}
-        style={{
-          height: "100%",
-        }}
-      ></div>
-    </Spin>
+        }
+      }
+    },
+    [mode, value, onChange],
+  );
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        height: "100%",
+      }}
+    ></div>
   );
 };
 
