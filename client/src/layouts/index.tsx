@@ -10,7 +10,7 @@ import {
   routes as routesPath,
 } from "@/constant";
 import { getUserLocalInfo } from "@/utils";
-import { routes, layoutConfig, Logo } from "./config";
+import { routes, layoutConfig, Logo, excludeRoutes } from "./config";
 import styles from "./index.less";
 
 const BaseLayout: React.FC = (props) => {
@@ -74,7 +74,7 @@ const BaseLayout: React.FC = (props) => {
         height: "100vh",
       }}
     >
-      {history.location.pathname == "/" ? (
+      {excludeRoutes.includes(history.location.pathname) ? (
         <Fragment>{props.children}</Fragment>
       ) : (
         <ProLayout

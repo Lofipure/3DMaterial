@@ -4,6 +4,7 @@ export enum routes {
   mine = "/mine",
   property = "/property",
   home = "/",
+  ar = "/ar",
 }
 
 export enum ResponseCode {

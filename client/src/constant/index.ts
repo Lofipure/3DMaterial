@@ -7,6 +7,7 @@ export const routes = _routes;
 
 export const PORT = 9015;
 export const IP = "http://localhost";
+// export const IP = "http://192.168.1.100";
 
 export const ROOT_PATH = IP + ":" + PORT;
 

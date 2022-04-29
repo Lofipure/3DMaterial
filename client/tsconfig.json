@@ -21,7 +21,8 @@
     "src/**/*",
     "config/**/*",
     ".umirc.ts",
-    "typings.d.ts"
+    "typings.d.ts",
+    "../server/scripts"
   ],
   "exclude": [
     "node_modules",

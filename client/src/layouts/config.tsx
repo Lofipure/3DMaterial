@@ -36,9 +36,14 @@ export const layoutConfig: BasicLayoutProps = {
   contentWidth: "Fixed",
   splitMenus: false,
   fixSiderbar: true,
+  // layout: "top",
+  // navTheme: "dark",
   layout: "mix",
   navTheme: "light",
+  disableMobile: true,
   fixedHeader: true,
 };
 
 export const Logo = <img src={logo} alt="" />;
+
+export const excludeRoutes = [routesPath.ar, "/"];

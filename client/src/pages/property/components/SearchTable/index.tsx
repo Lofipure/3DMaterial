@@ -84,6 +84,7 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
   };
 
   const handleEditModelClose = () => {
+    tableRef.current?.refresh();
     setEditModelVisible(false);
     setCurrentEditModel(undefined);
   };
@@ -299,10 +300,7 @@ const SearchTable: FC<ISearchTableProps> = (props) => {
         }}
         closable={false}
       >
-        <Create
-          onClose={setEditModelVisible.bind(this, false)}
-          ref={createModalRef}
-        />
+        <Create onClose={handleEditModelClose} ref={createModalRef} />
       </Drawer>
       <div className={styles["search-table__header"]}>
         <Input.Search

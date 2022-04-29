@@ -5,9 +5,10 @@ import { getCookieData } from "@/utils";
 import styles from "./index.less";
 import { LOGIN_COOKIE_KEY } from "@/constant";
 
+const excludePath = ["/", "/ar"];
 const Auth: FC = (props) => (
   <div className={styles["no-auth"]}>
-    {useLocation().pathname != "/" &&
+    {!excludePath.includes(useLocation().pathname) &&
     !getCookieData(LOGIN_COOKIE_KEY)?.length ? (
       <div className={styles["no-auth__content"]}>
         <Empty

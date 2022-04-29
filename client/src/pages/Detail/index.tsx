@@ -5,6 +5,9 @@ import {
   LikeOutlined,
   ShareAltOutlined,
 } from "@ant-design/icons";
+import { stringify } from "querystring";
+import { history } from "umi";
+import { routes } from "@/constant";
 import fetch from "@/fetch";
 import apis from "@/api";
 import { getUserLocalInfo, isNil } from "@/utils";
@@ -129,7 +132,12 @@ const Detail: FC<IDetailPorps> = (props) => {
               <Button
                 type="default"
                 onClick={() => {
-                  message.success("😊 正在紧张开发中，耐心等待哦～");
+                  const modelParam = {
+                    name: modelDetail?.model_name,
+                    cover: modelDetail?.model_cover,
+                    url: modelDetail?.model_url,
+                  };
+                  history.push(`${routes.ar}?${stringify(modelParam)}`);
                 }}
               >
                 <ShareAltOutlined />
