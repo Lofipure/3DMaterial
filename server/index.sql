@@ -19,7 +19,9 @@
 -- Table structure for table `goods`
 --
 
-CREATE Database 3d_material;
+CREATE Database 3d_material CHARSET=utf8mb4;
+
+use 3d_material;
 
 DROP TABLE IF EXISTS `goods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
