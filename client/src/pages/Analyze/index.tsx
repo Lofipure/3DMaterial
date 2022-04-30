@@ -68,7 +68,6 @@ const Analyze: FC = () => {
     setTagPopularity(tagPopularity);
     setComprehensive(comprehensive);
 
-    console.log("[🔧 Debug 🔧]", "model visit", modelVisit);
     setLoading(false);
   };
 

@@ -134,8 +134,9 @@ const Detail: FC<IDetailPorps> = (props) => {
                 onClick={() => {
                   const modelParam = {
                     name: modelDetail?.model_name,
-                    cover: modelDetail?.model_cover,
                     url: modelDetail?.model_url,
+                    creator: modelDetail?.creator.username,
+                    like: modelDetail?.model_goods,
                   };
                   history.push(`${routes.ar}?${stringify(modelParam)}`);
                 }}

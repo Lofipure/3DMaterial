@@ -1,4 +1,35 @@
-.ar-frame {
-  height: 100vh;
-  width: 100vw;
+.ar {
+  height: 100%;
+  .ar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    &__frame {
+      flex: 1;
+      width: 100vw;
+    }
+
+    &__header {
+      height: 72px;
+      padding: 8px 16px;
+      &__title {
+        text-align: center;
+        font-size: 18px;
+        line-height: 24px;
+      }
+      &__tags {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+      }
+    }
+  }
+  .ar-tip {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
