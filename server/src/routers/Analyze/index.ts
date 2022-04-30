@@ -1,7 +1,7 @@
 import Router from "koa-router";
-import { resCreator } from "@/utils";
-import * as TagMethod from "@/Models/Tags";
-import * as ModelMethod from "@/Models/Models";
+import { resCreator } from "../../utils";
+import * as TagMethod from "../../Models/Tags";
+import * as ModelMethod from "../../Models/Models";
 
 const analyzeRouter = new Router({
   prefix: "/analyze",

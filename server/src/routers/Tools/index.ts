@@ -1,8 +1,8 @@
 import Router from "koa-router";
 import fse from "fs-extra";
 import path from "path";
-import { resCreator } from "@/utils";
-import { IP, PORT } from "@/constant";
+import { resCreator } from "../../utils";
+import { IP, PORT } from "../../constant";
 const toolRouter = new Router({
   prefix: "/tools",
 });

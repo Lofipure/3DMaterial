@@ -1,5 +1,5 @@
-import * as ModelReqType from "@/types/Model/req.type";
-import * as ModelResType from "@/types/Model/res.type";
+import * as ModelReqType from "../../types/Model/req.type";
+import * as ModelResType from "../../types/Model/res.type";
 import _ from "lodash";
 import {
   Model,
@@ -14,8 +14,8 @@ import {
 } from "../../connection/modelDefine";
 import { Op, Model as SeqModel, fn, Sequelize, col } from "sequelize";
 import moment from "moment";
-import { AuthControl } from "@/types";
-import * as AnalyzeResType from "@/types/Analyze/res.type";
+import { AuthControl } from "../../types";
+import * as AnalyzeResType from "../../types/Analyze/res.type";
 
 /** 保存模型 */
 export const saveModel = async (

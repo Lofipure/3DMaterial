@@ -10,7 +10,7 @@ import {
   User,
   Visit,
 } from "../../connection/modelDefine";
-import * as ReqType from "@/types/User/req.type";
+import * as ReqType from "../../types/User/req.type";
 import moment from "moment";
 import { Model as SeqModel, ModelCtor, Op, fn, col } from "sequelize";
 import { EntityType, EventType } from "../../types";

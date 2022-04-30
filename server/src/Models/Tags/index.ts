@@ -8,7 +8,7 @@ import {
   Goods,
 } from "../../connection/modelDefine";
 import { ITagDataItem } from "./types";
-import * as AnalyzeResType from "@/types/Analyze/res.type";
+import * as AnalyzeResType from "../../types/Analyze/res.type";
 
 /** 检查是否有重名表标签 */
 export const checkTagName = async (tagName: string) => {

@@ -1,13 +1,13 @@
 import Router from "koa-router";
-import * as ReqType from "@/types/User/req.type";
-import * as UserMethod from "@/Models/Users";
-import { resCreator } from "@/utils";
+import * as ReqType from "../../types/User/req.type";
+import * as UserMethod from "../../Models/Users";
+import { resCreator } from "../../utils";
 import md5 from "md5";
 import {
   EMAIL_COOKIE_KEY,
   LoginUserStatus,
   TOKEN_COOKIE_KEY,
-} from "@/constant";
+} from "../../constant";
 
 const userRouter = new Router({
   prefix: "/user",
