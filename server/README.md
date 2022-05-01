@@ -29,11 +29,11 @@ enum AuthControl {
 
 - Response：
 
-```json
+```typescript
 {
   "code": 1,
   "data": {
-    "status": 1 ｜ 0， // 保存状态『是否成功』
+    "status": 1|0， // 保存状态『是否成功』
   }
 }
 ```
@@ -54,7 +54,7 @@ enum AuthControl {
 
 - Response：
 
-```json
+```typescript
 {
   "code": 1,
   "data": {
@@ -102,7 +102,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -125,7 +125,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -148,7 +148,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -201,7 +201,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -224,7 +224,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -249,7 +249,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -282,7 +282,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -310,7 +310,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -342,7 +342,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -365,7 +365,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -394,7 +394,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -424,7 +424,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -453,7 +453,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -485,7 +485,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -516,7 +516,7 @@ enum AuthControl {
   }
   ```
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -546,7 +546,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -576,7 +576,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -598,7 +598,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -629,7 +629,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
@@ -651,7 +651,7 @@ enum AuthControl {
 
 - Response：
 
-  ```json
+  ```typescript
   {
     "code": 1,
     "data": {
