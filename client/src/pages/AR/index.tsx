@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Button, message, Result, Tag } from "antd";
 import { history, useLocation } from "umi";
 import { parse } from "querystring";
@@ -21,6 +21,7 @@ const AR: FC = () => {
   const { search } = useLocation();
   const model: IModel = parse(search.slice(1)) as any;
   const isMobile = /mobile/i.test(navigator.userAgent);
+  const [forceShow, setForceShow] = useState<boolean>(false);
 
   const ARFrame = model?.url ? (
     <div className={styles["ar-container"]}>
@@ -62,7 +63,7 @@ const AR: FC = () => {
 
   return (
     <div className={styles["ar"]}>
-      {isMobile ? (
+      {isMobile || forceShow ? (
         <div className={styles["ar-container"]}>{ARFrame}</div>
       ) : (
         <div className={styles["ar-tip"]}>
@@ -88,6 +89,14 @@ const AR: FC = () => {
                 }}
               >
                 返回列表
+              </Button>,
+              <Button
+                key={"force"}
+                onClick={() => {
+                  setForceShow(true);
+                }}
+              >
+                强行在网页上显示
               </Button>,
             ]}
           />

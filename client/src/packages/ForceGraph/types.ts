@@ -39,26 +39,44 @@ export interface ILineLabelTextStyle {
   limit?: number;
 }
 
-export interface INodeTypes extends d3.SimulationNodeDatum {
+export interface INodeType extends d3.SimulationNodeDatum {
   [key: string]: any;
   id: string;
   labelText?: string;
   textStyle?: INodeTextStyle;
   nodeStyle?: INodeStyle;
+  isFixed?: boolean;
+  __last?: {
+    x?: number;
+    y?: number;
+  };
+  onDoubleClick?: (
+    node?: INodeType,
+    renderTooltip?: (
+      renderValue: string | string[] | (() => JSX.Element),
+    ) => void,
+  ) => Promise<void>;
   onClick?: (
-    node?: INodeTypes,
-    renderTooltip?: (renderValue: string | string[]) => void,
-  ) => void;
+    node?: INodeType,
+    renderTooltip?: (
+      renderValue: string | string[] | (() => JSX.Element),
+    ) => void,
+  ) => Promise<void>;
   onHover?: (
-    node?: INodeTypes,
-    renderTooltip?: (renderValue: string | string[]) => void,
+    node?: INodeType,
+    renderTooltip?: (
+      renderValue: string | string[] | (() => JSX.Element),
+    ) => void,
   ) => void;
+  onDragStart?: (node?: INodeType) => void;
+  onDragEnd?: (node?: INodeType) => void;
+  onDragged?: (node?: INodeType) => void;
 }
 
-export interface ILinkTypes extends d3.SimulationLinkDatum<INodeTypes> {
+export interface ILinkType extends d3.SimulationLinkDatum<INodeType> {
   [key: string]: any;
-  source: string | INodeTypes;
-  target: string | INodeTypes;
+  source: string | INodeType;
+  target: string | INodeType;
   lineStyle?: ILineStyle;
   labelType?: "path" | "text";
   labelText?: string;
@@ -67,12 +85,16 @@ export interface ILinkTypes extends d3.SimulationLinkDatum<INodeTypes> {
   iconStyle?: ILineLabelIconStyle;
   drawArrow?: boolean;
   onClick?: (
-    link?: ILinkTypes,
-    renderTooltip?: (renderValue: string | string[]) => void,
+    link?: ILinkType,
+    renderTooltip?: (
+      renderValue: string | string[] | (() => JSX.Element),
+    ) => void,
   ) => void;
   onHover?: (
-    link?: ILinkTypes,
-    renderTooltip?: (renderValue: string | string[]) => void,
+    link?: ILinkType,
+    renderTooltip?: (
+      renderValue: string | string[] | (() => JSX.Element),
+    ) => void,
   ) => void;
 }
 
@@ -88,20 +110,40 @@ export interface ILinkMapProps {
       y: number;
     };
     color: string;
-    data: ILinkTypes;
+    data: ILinkType;
   };
 }
 
 export interface IGraphDataProps {
-  links: ILinkTypes[];
-  nodes: INodeTypes[];
+  links: ILinkType[];
+  nodes: INodeType[];
+}
+
+export interface IGraphOptions extends IGraphProps {
+  containerTarget: string;
+  tooltipTarget: string;
+  containerRect: Record<string, any>;
 }
 
 export interface IGraphInterface {
   updateStyle: (data: IGraphDataProps) => void;
   update: (data: IGraphDataProps) => void;
   highlight: (id?: string) => void;
-  renderTooltip: (renderValue: string | string[], className?: string) => void;
+  renderTooltip: (
+    renderValue: string | string[] | (() => JSX.Element),
+    className?: string,
+  ) => void;
+  addRelationNodes: (sourceNode: INodeType, nodeList: INodeType[]) => void;
+  removeNode: (node: INodeType) => void;
+  toggleFixNode: (node: INodeType, cb?: (node: INodeType) => void) => void;
+  getNodeBuffer: (
+    method: (node: INodeType) => boolean,
+  ) => INodeType | undefined;
+  highlightRoad: (nodes: INodeType[] | string[]) => void;
+  getRelationNode: (node: INodeType) => {
+    node: INodeType;
+    type: "source" | "target";
+  }[];
 }
 
 export interface IGraphProps {
@@ -127,10 +169,15 @@ export interface IHoverHighlightProps {
   unHighlightBorderColor?: string;
 }
 export interface IForceConfigProps {
-  nodeDistance?: number;
+  nodeDistance?: number | ((link: ILinkType) => number);
   forceStrength?: number;
+  alphaDecay?: number;
   scaleExtent?: {
     max: number;
     min: number;
   };
 }
+
+export type FilterUnRequiredType<T> = {
+  [P in keyof T]-?: Exclude<T[P], undefined | null>;
+};

@@ -30,7 +30,7 @@ const _config = defineConfig({
         {
           path: "/property",
           component: "Property",
-          title: "我的资产 - 3DMaterial",
+          title: "我的物料库 - 3DMaterial",
         },
         {
           path: "/ar",

@@ -184,85 +184,83 @@ export const deleteTags = async (tagIds: number[]) => {
 };
 
 /** 分析模型标签类型占比 */
-export const getModelTypeAnalyze =
-  async (): Promise<AnalyzeResType.IModelTypeAnalyze> => {
-    const __result = await Promise.all(
-      (
-        await TagsAndModels.findAll({
-          attributes: ["tid"],
-          group: ["tid"],
-          include: [
-            {
-              association: Tag.hasOne(Tag, {
-                foreignKey: "tid",
-              }),
-            },
-          ],
-        })
-      ).map(async (item) => {
-        const { tid, tag } = item.get();
-        const { count } = await TagsAndModels.findAndCountAll({
-          where: {
-            tid,
+export const getModelTypeAnalyze = async (): Promise<AnalyzeResType.IModelTypeAnalyze> => {
+  const __result = await Promise.all(
+    (
+      await TagsAndModels.findAll({
+        attributes: ["tid"],
+        group: ["tid"],
+        include: [
+          {
+            association: Tag.hasOne(Tag, {
+              foreignKey: "tid",
+            }),
           },
-        });
-        return {
-          name: tag?.tag_name,
-          value: count,
-        };
-      }),
-    );
-    return {
-      list: __result,
-      total: __result.reduce<number>((cnt, item) => cnt + item.value, 0),
-    };
+        ],
+      })
+    ).map(async (item) => {
+      const { tid, tag } = item.get();
+      const { count } = await TagsAndModels.findAndCountAll({
+        where: {
+          tid,
+        },
+      });
+      return {
+        name: tag?.tag_name,
+        value: count,
+      };
+    }),
+  );
+  return {
+    list: __result,
+    total: __result.reduce<number>((cnt, item) => cnt + item.value, 0),
   };
+};
 
 // 标签热度分布
-export const getTagPopularAnalyze =
-  async (): Promise<AnalyzeResType.ITagPopularityAnalyze> => {
-    const tagPopular = await Promise.all(
-      (
-        await TagsAndModels.findAll({
-          group: ["tid"],
-          attributes: ["tid"],
-          include: [
-            {
-              association: Tag.hasOne(TagsAndModels, {
-                foreignKey: "tid",
-              }),
-              attributes: ["tag_name"],
-            },
-          ],
-        })
-      ).map(async (item) => {
-        const { tid, tags_and_model: tag } = item.get();
-        const modelList = await TagsAndModels.findAll({
-          where: {
-            tid,
-          },
-          attributes: ["mid"],
-        });
-        const goods = (
-          await Promise.all(
-            modelList?.map(async (item) => {
-              const { mid } = item.get();
-              const { count } = await Goods.findAndCountAll({
-                where: {
-                  mid,
-                },
-              });
-              return count;
+export const getTagPopularAnalyze = async (): Promise<AnalyzeResType.ITagPopularityAnalyze> => {
+  const tagPopular = await Promise.all(
+    (
+      await TagsAndModels.findAll({
+        group: ["tid"],
+        attributes: ["tid"],
+        include: [
+          {
+            association: Tag.hasOne(TagsAndModels, {
+              foreignKey: "tid",
             }),
-          )
-        ).reduce<number>((total, value) => total + value, 0);
-        return {
-          name: tag?.tag_name,
-          value: goods,
-        };
-      }),
-    );
-    return {
-      list: tagPopular,
-    };
+            attributes: ["tag_name"],
+          },
+        ],
+      })
+    ).map(async (item) => {
+      const { tid, tags_and_model: tag } = item.get();
+      const modelList = await TagsAndModels.findAll({
+        where: {
+          tid,
+        },
+        attributes: ["mid"],
+      });
+      const goods = (
+        await Promise.all(
+          modelList?.map(async (item) => {
+            const { mid } = item.get();
+            const { count } = await Goods.findAndCountAll({
+              where: {
+                mid,
+              },
+            });
+            return count;
+          }),
+        )
+      ).reduce<number>((total, value) => total + value, 0);
+      return {
+        name: tag?.tag_name,
+        value: goods,
+      };
+    }),
+  );
+  return {
+    list: tagPopular,
   };
+};

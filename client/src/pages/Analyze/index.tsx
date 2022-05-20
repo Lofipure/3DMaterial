@@ -136,13 +136,17 @@ const Analyze: FC = () => {
         >
           {modelVisitMode == ModelVisitMode.table ? (
             <>
-              <div className={styles["model-visit__title"]}>模型访问量排名</div>
+              <div className={styles["model-visit__title"]}>
+                模型访问排行 Top5
+              </div>
               <Table
                 rowKey={"name"}
-                dataSource={modelVisit?.model_visit.map((item, index) => ({
-                  index: index + 1,
-                  ...item,
-                }))}
+                dataSource={modelVisit?.model_visit
+                  ?.slice(0, 5)
+                  .map((item, index) => ({
+                    index: index + 1,
+                    ...item,
+                  }))}
                 columns={tableColumns}
                 pagination={false}
               />

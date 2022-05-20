@@ -12,7 +12,7 @@ export const modelVisitOptions = [
     value: ModelVisitMode.area,
   },
   {
-    label: "访问排行",
+    label: "模型访问排行 Top5",
     value: ModelVisitMode.table,
   },
 ];

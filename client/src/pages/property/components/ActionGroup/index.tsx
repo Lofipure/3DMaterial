@@ -62,7 +62,11 @@ const ActionGroup = <T extends ITagItem & IModelItem>(
           className={styles["action-group__item"]}
           onClick={item.eventHandler ?? emptyHandler}
           disabled={
-            item.key === "auth" && PropertyType.model ? !data.is_owner : false
+            ["auth", "delete"].includes(item.key) &&
+            // item.key === "auth"
+            PropertyType.model
+              ? !data.is_owner
+              : false
           }
         >
           {item.name}

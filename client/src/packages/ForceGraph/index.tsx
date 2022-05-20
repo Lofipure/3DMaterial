@@ -53,26 +53,28 @@ const ForceGraph = React.forwardRef<IGraphInterface, IGraphProps>(
       if (!containerRef.current?.getBoundingClientRect()) return;
       if (!width || !height) return;
       if (isStatic) {
-        graphInstance.current.updateStyle(data);
+        graphInstance.current?.updateStyle(data);
       } else {
-        graphInstance.current.update(data);
+        graphInstance.current?.update(data);
       }
     }, [data]);
 
     React.useImperativeHandle(ref, () => ({
-      highlight: (id?: string) => {
-        graphInstance.current.highlight(id);
-      },
-      renderTooltip: (renderValue: string | string[]) => {
-        graphInstance.current.renderTooltip(renderValue);
-      },
-      update: (data: any) => {
-        graphInstance.current.update(data);
-      },
-      updateStyle: (data: any) => {
-        graphInstance.current.updateStyle(data);
-      },
+      highlight: (id) => graphInstance.current?.highlight(id),
+      renderTooltip: (renderValue) =>
+        graphInstance.current?.renderTooltip(renderValue),
+      update: (data) => graphInstance.current?.update(data),
+      updateStyle: (data) => graphInstance.current?.updateStyle(data),
+      addRelationNodes: (sourceNode, targetNodeList) =>
+        graphInstance.current?.addRelationNodes(sourceNode, targetNodeList),
+      removeNode: (node) => graphInstance.current?.removeNode(node),
+      toggleFixNode: (node, cb) =>
+        graphInstance.current?.toggleFixNode(node, cb),
+      getNodeBuffer: (method) => graphInstance.current?.getNodeBuffer(method),
+      highlightRoad: (nodes) => graphInstance.current?.highlightRoad(nodes),
+      getRelationNode: (node) => graphInstance.current?.getRelationNode(node),
     }));
+
     return (
       <div className="force-graph" ref={containerRef}>
         <div

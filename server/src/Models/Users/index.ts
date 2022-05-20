@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { LoginUserStatus, saveUserStatus } from "../../constant";
 import {
   Goods,
@@ -152,13 +153,11 @@ export const login = async (
   [key: string]: any;
 }> => {
   const _info =
-    (
-      (await User.findOne({
-        where: {
-          email: userInfo.email,
-        },
-      })) as Record<string, any>
-    )?.dataValues ?? {};
+    ((await User.findOne({
+      where: {
+        email: userInfo.email,
+      },
+    })) as Record<string, any>)?.dataValues ?? {};
   if (Object.keys(_info).length == 0) {
     return {
       status: LoginUserStatus.noUser,

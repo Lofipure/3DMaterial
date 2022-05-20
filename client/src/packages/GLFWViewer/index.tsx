@@ -53,7 +53,7 @@ const GLFWViewer: FC<IGLFWViewerProps> = (props) => {
       scene.add(light);
 
       const point = new THREE.PointLight(0xffffff);
-      point.position.set(0, 1000, 1000);
+      point.position.set(0, 100, 100);
       scene.add(point);
     };
 

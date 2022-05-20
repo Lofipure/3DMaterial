@@ -22,7 +22,7 @@ export const routes: Route[] = [
   },
   {
     path: routesPath.property,
-    name: "我的资产",
+    name: "我的物料库",
     icon: <FileSyncOutlined />,
   },
   {
@@ -36,10 +36,10 @@ export const layoutConfig: BasicLayoutProps = {
   contentWidth: "Fixed",
   splitMenus: false,
   fixSiderbar: true,
-  // layout: "top",
-  // navTheme: "dark",
-  layout: "mix",
-  navTheme: "light",
+  layout: "top",
+  navTheme: "dark",
+  // layout: "mix",
+  // navTheme: "light",
   disableMobile: true,
   fixedHeader: true,
 };

@@ -33,7 +33,6 @@
     "echarts": "^5.2.1",
     "echarts-for-react": "^3.0.1",
     "gl-matrix": "^3.4.3",
-    "hilo3d": "^1.16.2",
     "jquery": "^3.6.0",
     "json-bigint": "^1.0.0",
     "lodash": "^4.17.21",
